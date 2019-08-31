@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:floating_search_bar/floating_search_bar.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,26 +7,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Workeen',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: IntroPage(title: 'Pagina principal'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class IntroPage extends StatefulWidget {
+  IntroPage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -41,21 +31,20 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _IntroPageState createState() => _IntroPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _IntroPageState extends State<IntroPage> {
+  Widget _startBusiness() {
+    return IntroPage(title: 'Flutter Demo Home Page');
+  }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  Widget _startIndividual() {
+    return IntroPage(title: 'Flutter Demo Home Page');
+  }
+
+  Widget _startSignIn() {
+    return IntroPage(title: 'Flutter Demo Home Page');
   }
 
   @override
@@ -67,15 +56,37 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Center(
+              child: Text(
+                "W",
+                textScaleFactor: 10,
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                RaisedButton(
+                  child: Text("SOY EMPRESA"),
+                  onPressed: _startBusiness,
+                ),
+                RaisedButton(
+                  child: Text("SOY PERSONA"),
+                  onPressed: _startIndividual,
+                ),
+              ],
+            ),
+            Center(
+              child: FlatButton(
+                child: Text("Iniciar sesión"),
+                onPressed: _startSignIn,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
