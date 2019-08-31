@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workeen/business.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,18 +36,6 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
-  Widget _startBusiness() {
-    return IntroPage(title: 'Flutter Demo Home Page');
-  }
-
-  Widget _startIndividual() {
-    return IntroPage(title: 'Flutter Demo Home Page');
-  }
-
-  Widget _startSignIn() {
-    return IntroPage(title: 'Flutter Demo Home Page');
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -71,18 +60,27 @@ class _IntroPageState extends State<IntroPage> {
               children: [
                 RaisedButton(
                   child: Text("SOY EMPRESA"),
-                  onPressed: _startBusiness,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BusinessRoute()),
+                    );
+                  },
                 ),
                 RaisedButton(
                   child: Text("SOY PERSONA"),
-                  onPressed: _startIndividual,
+                  onPressed: () {
+
+                  },
                 ),
               ],
             ),
             Center(
               child: FlatButton(
                 child: Text("Iniciar sesión"),
-                onPressed: _startSignIn,
+                onPressed: () {
+
+                },
               ),
             ),
           ],
