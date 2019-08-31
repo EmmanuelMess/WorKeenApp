@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workeen/business.dart';
 
+import 'business_search.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,6 +14,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      routes: {
+        BusinessSearchPeopleScreen.routeName: (context) => BusinessSearchPeopleScreen(),
+      },
       home: IntroPage(title: 'Pagina principal'),
     );
   }
@@ -63,7 +68,7 @@ class _IntroPageState extends State<IntroPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BusinessRoute()),
+                      MaterialPageRoute(builder: (context) => BusinessFilterPeopleScreen()),
                     );
                   },
                 ),

@@ -1,38 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:workeen/business_search.dart';
 
-class BusinessRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Workeen',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: BusinessFilterPage(title: 'Pagina principal'),
-    );
-  }
-}
-
-class BusinessFilterPage extends StatefulWidget {
-  BusinessFilterPage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _BusinessFilterPageState createState() => _BusinessFilterPageState();
-}
-
-class _BusinessFilterPageState extends State<BusinessFilterPage> {
-  Widget _showFilter() {
+class BusinessFilterPeopleScreen extends StatelessWidget {
+  Widget _showFilter(BuildContext context) {
     List<FocusNode> foucuses = [FocusNode(), FocusNode(), FocusNode(), FocusNode()];
 
     return Container(
@@ -110,14 +80,20 @@ class _BusinessFilterPageState extends State<BusinessFilterPage> {
                 ),
               )
             ),
-            _showFilter(),
+            _showFilter(context),
             Container(
               alignment: Alignment.centerRight,
               padding: EdgeInsets.all(16),
               child: RaisedButton(
                 child: Text('Buscar'),
                 onPressed: () {
-
+                  Navigator.pushNamed(
+                    context,
+                    BusinessSearchPeopleScreen.routeName,
+                    arguments: PersonFilter(
+                      "Escritor",
+                    )
+                  );
                 },
               ),
             ),
