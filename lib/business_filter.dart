@@ -2,30 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:workeen/business_search.dart';
 
-class BusinessFilterPeopleScreen extends StatefulWidget {
-  BusinessFilterPeopleScreen({Key key, this.title}) : super(key: key);
-
-  static const String routeName = "/buisnessFilter";
-
-  final String title;
-
-  @override
-  _BusinessFilterPeopleState createState() => new _BusinessFilterPeopleState();
-}
-
 class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
   final List<String> _sexes = ['Indiferente', 'Hombre', 'Mujer'];
   final _formKey = GlobalKey<FormState>();
 
   FocusNode specialtyFocusNode;
-  FocusNode expirienceFocusNode;
-  FocusNode ageFocusNode;
+  FocusNode expirienceMaxFocusNode;
+  FocusNode expirienceMinFocusNode;
+  FocusNode ageMinFocusNode;
+  FocusNode ageMaxFocusNode;
   FocusNode sexFocusNode;
   FocusNode genderFocusNode;
 
   final specialtyController = TextEditingController();
-  final expirienceController = TextEditingController();
-  final ageController = TextEditingController();
+  var _expirienceMinSelected = 0;
+  var _expirienceMaxSelected = 70;
+  var _ageMinSelected = 16;
+  var _ageMaxSelected = 100;
 
   int _selectedSex = 0;
   int _selectedGender = 0;
@@ -35,8 +28,10 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
     super.initState();
 
     specialtyFocusNode = FocusNode();
-    expirienceFocusNode = FocusNode();
-    ageFocusNode = FocusNode();
+    expirienceMaxFocusNode = FocusNode();
+    expirienceMinFocusNode = FocusNode();
+    ageMaxFocusNode = FocusNode();
+    ageMinFocusNode = FocusNode();
     sexFocusNode = FocusNode();
     genderFocusNode = FocusNode();
   }
@@ -44,19 +39,32 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
   @override
   void dispose() {
     specialtyFocusNode.dispose();
-    expirienceFocusNode.dispose();
-    ageFocusNode.dispose();
+    expirienceMaxFocusNode.dispose();
+    expirienceMinFocusNode.dispose();
+    ageMaxFocusNode.dispose();
+    ageMinFocusNode.dispose();
     sexFocusNode.dispose();
     genderFocusNode.dispose();
 
     specialtyController.dispose();
-    expirienceController.dispose();
-    ageController.dispose();
 
     super.dispose();
   }
 
-  Widget _showFilter(BuildContext context) {
+  Widget _showField(String title, Widget child) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title),
+          child,
+        ],
+      ),
+    );
+  }
+
+  Widget _showFilter() {
     return Container(
       padding: EdgeInsets.fromLTRB(24, 24, 32, 24),
       child: Form(
@@ -64,72 +72,82 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            TextFormField(
-              focusNode: specialtyFocusNode,
-              autofocus: true,
-              decoration: InputDecoration(hintText: 'Especialidad'),
-              controller: specialtyController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Ingrese una especialidad';
-                }
-                return null;
-              },
-              textInputAction: TextInputAction.next,
-              onEditingComplete: () => FocusScope.of(context).requestFocus(expirienceFocusNode),
+            _showField(
+              "Especialidad",
+              TextFormField(
+                focusNode: specialtyFocusNode,
+                autofocus: true,
+                controller: specialtyController,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Ingrese una especialidad';
+                  }
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
+                onEditingComplete: () => FocusScope.of(context).requestFocus(expirienceMinFocusNode),
+              ),
             ),
-            TextFormField(
-              focusNode: expirienceFocusNode,
-              decoration: InputDecoration(hintText: 'Años de experiencia'),
-              keyboardType: TextInputType.number,
-              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-              controller: expirienceController,
-              textInputAction: TextInputAction.next,
-              onEditingComplete: () => FocusScope.of(context).requestFocus(ageFocusNode),
+            _showField(
+              "Años de experiencia",
+              RangeSlider(
+                values: RangeValues(_expirienceMinSelected.toDouble(), _expirienceMaxSelected.toDouble()),
+                min: 0.0,
+                max: 70.0,
+                divisions: 70,
+                labels: RangeLabels("$_expirienceMinSelected años", "$_expirienceMaxSelected años"),
+                onChanged: (range) {
+                  setState(() {
+                    _expirienceMinSelected = range.start.toInt();
+                    _expirienceMaxSelected = range.end.toInt();
+                  });
+                },
+              ),
             ),
-            TextFormField(
-              focusNode: ageFocusNode,
-              decoration: InputDecoration(hintText: 'Edad'),
-              keyboardType: TextInputType.number,
-              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-              controller: ageController,
-              textInputAction: TextInputAction.next,
-              onEditingComplete: () {
-                setState(() {
-                  FocusScope.of(context).requestFocus(sexFocusNode);
-                  _selectedSex = _selectedSex;
-                });
-              },
+            _showField(
+              "Edad",
+              RangeSlider(
+                values: RangeValues(_ageMinSelected.toDouble(), _ageMaxSelected.toDouble()),
+                min: 16.0,
+                max: 100.0,
+                divisions: 100-16,
+                labels: RangeLabels("$_ageMinSelected años", "$_ageMaxSelected años"),
+                onChanged: (range) {
+                  setState(() {
+                    _ageMinSelected = range.start.toInt();
+                    _ageMaxSelected = range.end.toInt();
+                  });
+                },
+              ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Sexo"),
-                DropdownButton<int>(
-                  value: _selectedSex,
-                  items: List.generate(_sexes.length, (int i) {
-                    return DropdownMenuItem(
-                      value: i,
-                      child: new Text(_sexes[i]),
-                    );
-                  }),
-                  onChanged: (elem) => setState(() => _selectedSex = elem),
+                _showField(
+                  "Sexo",
+                  DropdownButton<int>(
+                    value: _selectedSex,
+                    items: List.generate(_sexes.length, (int i) {
+                      return DropdownMenuItem(
+                        value: i,
+                        child: new Text(_sexes[i]),
+                      );
+                    }),
+                    onChanged: (elem) => setState(() => _selectedSex = elem),
+                  ),
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Genero"),
-                DropdownButton<int>(
-                  value: _selectedGender,
-                  items: List.generate(['Indiferente'].length, (int i) {
-                    return DropdownMenuItem(
-                      value: i,
-                      child: new Text(['Indiferente'][i]),
-                    );
-                  }),
-                  onChanged: (elem) => setState(() => _selectedGender = elem),
+                _showField(
+                  "Genero",
+                  DropdownButton<int>(
+                    value: _selectedGender,
+                    items: List.generate(['Indiferente'].length, (int i) {
+                      return DropdownMenuItem(
+                        value: i,
+                        child: new Text(['Indiferente'][i]),
+                      );
+                    }),
+                    onChanged: (elem) => setState(() => _selectedGender = elem),
+                  ),
                 ),
               ],
             ),
@@ -177,10 +195,21 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
                 ),
               )
             ),
-            _showFilter(context),
+            _showFilter(),
           ],
         )),
       ),
     );
   }
+}
+
+class BusinessFilterPeopleScreen extends StatefulWidget {
+  BusinessFilterPeopleScreen({Key key, this.title}) : super(key: key);
+
+  static const String routeName = "/buisnessFilter";
+
+  final String title;
+
+  @override
+  _BusinessFilterPeopleState createState() => new _BusinessFilterPeopleState();
 }
