@@ -101,25 +101,37 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
                 });
               },
             ),
-            DropdownButton<int>(
-              value: _selectedSex,
-              items: List.generate(_sexes.length, (int i) {
-                return DropdownMenuItem(
-                  value: i,
-                  child: new Text(_sexes[i]),
-                );
-              }),
-              onChanged: (elem) => setState(() => _selectedSex = elem),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Sexo"),
+                DropdownButton<int>(
+                  value: _selectedSex,
+                  items: List.generate(_sexes.length, (int i) {
+                    return DropdownMenuItem(
+                      value: i,
+                      child: new Text(_sexes[i]),
+                    );
+                  }),
+                  onChanged: (elem) => setState(() => _selectedSex = elem),
+                ),
+              ],
             ),
-            DropdownButton<int>(
-              value: _selectedGender,
-              items: List.generate(['Indiferente'].length, (int i) {
-                return DropdownMenuItem(
-                  value: i,
-                  child: new Text(['Indiferente'][i]),
-                );
-              }),
-              onChanged: (elem) => setState(() => _selectedGender = elem),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Genero"),
+                DropdownButton<int>(
+                  value: _selectedGender,
+                  items: List.generate(['Indiferente'].length, (int i) {
+                    return DropdownMenuItem(
+                      value: i,
+                      child: new Text(['Indiferente'][i]),
+                    );
+                  }),
+                  onChanged: (elem) => setState(() => _selectedGender = elem),
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.all(16),
@@ -159,7 +171,7 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
             Container(
               padding: EdgeInsets.only(left: 16, top: 24, right: 16),
               child: Text(
-                "Filtros",
+                "¿A quien buscas?",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
