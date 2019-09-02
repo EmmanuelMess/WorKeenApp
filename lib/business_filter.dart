@@ -7,14 +7,10 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
   final _formKey = GlobalKey<FormState>();
 
   FocusNode specialtyFocusNode;
-  FocusNode expirienceMaxFocusNode;
-  FocusNode expirienceMinFocusNode;
-  FocusNode ageMinFocusNode;
-  FocusNode ageMaxFocusNode;
-  FocusNode sexFocusNode;
-  FocusNode genderFocusNode;
+  FocusNode searchFocusNode;
 
   final specialtyController = TextEditingController();
+
   var _expirienceMinSelected = 0;
   var _expirienceMaxSelected = 70;
   var _ageMinSelected = 16;
@@ -28,23 +24,13 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
     super.initState();
 
     specialtyFocusNode = FocusNode();
-    expirienceMaxFocusNode = FocusNode();
-    expirienceMinFocusNode = FocusNode();
-    ageMaxFocusNode = FocusNode();
-    ageMinFocusNode = FocusNode();
-    sexFocusNode = FocusNode();
-    genderFocusNode = FocusNode();
+    searchFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
     specialtyFocusNode.dispose();
-    expirienceMaxFocusNode.dispose();
-    expirienceMinFocusNode.dispose();
-    ageMaxFocusNode.dispose();
-    ageMinFocusNode.dispose();
-    sexFocusNode.dispose();
-    genderFocusNode.dispose();
+    searchFocusNode.dispose();
 
     specialtyController.dispose();
 
@@ -85,7 +71,7 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
                   return null;
                 },
                 textInputAction: TextInputAction.next,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(expirienceMinFocusNode),
+                onEditingComplete: () => FocusScope.of(context).requestFocus(searchFocusNode),
               ),
             ),
             _showField(
@@ -154,7 +140,9 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
             Padding(
               padding: EdgeInsets.all(16),
               child: RaisedButton(
+                focusNode: searchFocusNode,
                 child: Text('Buscar'),
+                focusColor: ThemeData.light().primaryColor,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     Navigator.pushNamed(
