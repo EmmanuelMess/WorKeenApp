@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:workeen/business_search.dart';
+import 'package:workeen/business/business_search.dart';
 
 class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
   final List<String> _sexes = ['Indiferente', 'Hombre', 'Mujer'];

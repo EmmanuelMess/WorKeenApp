@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:workeen/business_filter.dart';
+import 'package:workeen/business/business_filter.dart';
 
-import 'business_search.dart';
+import 'package:workeen/business/business_search.dart';
 
 void main() => runApp(MyApp());
 
