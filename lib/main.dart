@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workeen/business/business_filter.dart';
 
 import 'package:workeen/business/business_search.dart';
+import 'package:workeen/signin.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       routes: {
         BusinessFilterPeopleScreen.routeName: (context) => BusinessFilterPeopleScreen(),
         BusinessSearchPeopleScreen.routeName: (context) => BusinessSearchPeopleScreen(),
+        SignInScreen.routeName: (context) => SignInScreen(),
       },
       home: IntroPage(title: 'Pagina principal'),
     );
@@ -71,7 +73,7 @@ class _IntroPageState extends State<IntroPage> {
                     child: Text("Iniciar sesión"),
                     textColor: Color.fromARGB(255, 251, 251, 251),
                     onPressed: () {
-
+                      Navigator.pushNamed(context, SignInScreen.routeName);
                     },
                   ),
                 ),

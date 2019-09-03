@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:workeen/business/business_search.dart';
+import 'package:workeen/utils/widget_utils.dart';
 
 class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
   final List<String> _sexes = ['Indiferente', 'Hombre', 'Mujer'];
@@ -37,19 +38,6 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
     super.dispose();
   }
 
-  Widget _showField(String title, Widget child) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title),
-          child,
-        ],
-      ),
-    );
-  }
-
   Widget _showFilter() {
     return Container(
       padding: EdgeInsets.fromLTRB(24, 24, 32, 24),
@@ -58,7 +46,7 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _showField(
+            WidgetUtils.showField(
               "Especialidad",
               TextFormField(
                 focusNode: specialtyFocusNode,
@@ -74,7 +62,7 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
                 onEditingComplete: () => FocusScope.of(context).requestFocus(searchFocusNode),
               ),
             ),
-            _showField(
+            WidgetUtils.showField(
               "Años de experiencia",
               RangeSlider(
                 values: RangeValues(_expirienceMinSelected.toDouble(), _expirienceMaxSelected.toDouble()),
@@ -90,7 +78,7 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
                 },
               ),
             ),
-            _showField(
+            WidgetUtils.showField(
               "Edad",
               RangeSlider(
                 values: RangeValues(_ageMinSelected.toDouble(), _ageMaxSelected.toDouble()),
@@ -109,7 +97,7 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _showField(
+                WidgetUtils.showField(
                   "Sexo",
                   DropdownButton<int>(
                     value: _selectedSex,
@@ -122,7 +110,7 @@ class _BusinessFilterPeopleState extends State<BusinessFilterPeopleScreen> {
                     onChanged: (elem) => setState(() => _selectedSex = elem),
                   ),
                 ),
-                _showField(
+                WidgetUtils.showField(
                   "Genero",
                   DropdownButton<int>(
                     value: _selectedGender,
