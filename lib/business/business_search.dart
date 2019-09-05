@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workeen/utils/widget_utils.dart';
 
+import '../colors.dart';
+
 class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with SingleTickerProviderStateMixin {
   final List<String> _sexes = ['Indiferente', 'Hombre', 'Mujer'];
   final _formKey = GlobalKey<FormState>();
@@ -199,6 +201,7 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
     return Scaffold(
       appBar: AppBar(
         title: Text("W"),
+        backgroundColor: ColorsApp.empresas,
       ),
       body: Column(
         children: [

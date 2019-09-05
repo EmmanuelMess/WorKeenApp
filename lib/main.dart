@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:workeen/business/business_filter.dart';
 
 import 'package:workeen/business/business_search.dart';
 import 'package:workeen/signin.dart';
+
+import 'colors.dart';
 
 void main() => runApp(MyApp());
 
@@ -86,10 +87,10 @@ class _IntroPageState extends State<IntroPage> {
 
 class _SlashedBackground extends CustomPainter {
   final _leftPaint = Paint()
-    ..color = Color.fromARGB(255, 0, 148, 128);
+    ..color = ColorsApp.empresas;
 
   final _rightPaint = Paint()
-    ..color = Color.fromARGB(255, 0, 176, 222);
+    ..color = ColorsApp.empleados;
 
   @override
   void paint(Canvas canvas, Size size) {
