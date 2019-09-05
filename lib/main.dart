@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        BusinessFilterPeopleScreen.routeName: (context) => BusinessFilterPeopleScreen(),
         BusinessSearchPeopleScreen.routeName: (context) => BusinessSearchPeopleScreen(),
         SignInScreen.routeName: (context) => SignInScreen(),
       },
@@ -56,7 +55,7 @@ class _IntroPageState extends State<IntroPage> {
                       child: Text("BUSCAR EMPLEADOS"),
                       color: Color.fromARGB(255, 251, 251, 251),
                       onPressed: () {
-                        Navigator.pushNamed(context, BusinessFilterPeopleScreen.routeName);
+                        Navigator.pushNamed(context, BusinessSearchPeopleScreen.routeName);
                       },
                     ),
                     RaisedButton(
