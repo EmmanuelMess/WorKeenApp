@@ -1,14 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workeen/utils/widget_utils.dart';
+import 'package:faker/faker.dart';
 
 import '../colors.dart';
+import 'possible_employee.dart';
 
 class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with SingleTickerProviderStateMixin {
+  final List<PossibleEmployee> people = List.from(Iterable.generate(
+    500,
+    (index) => PossibleEmployee(
+        faker.person.name(),
+        faker.randomGenerator.integer(45, min: -1),
+        faker.randomGenerator.integer(70),
+        faker.randomGenerator.integer(2, min: -1),
+        faker.randomGenerator.integer(3),
+    ),
+  ));
+
   final List<String> _sexes = ['Indiferente', 'Hombre', 'Mujer'];
   final _formKey = GlobalKey<FormState>();
 
-  FocusNode specialtyFocusNode;
+  FocusNode specialtyFocusNode; 
   FocusNode searchFocusNode;
 
   final specialtyController = TextEditingController();
@@ -22,8 +35,8 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
   int _selectedGender = 0;
 
   String _specialty = "";
-  bool _showFilter = true;
-  AnimationController _animationController;
+  bool _showFilter = false;
+  AnimationController _filterAnimationController;
   final Duration _duration = Duration(milliseconds: 500);
 
   @override
@@ -33,7 +46,7 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
     specialtyFocusNode = FocusNode();
     searchFocusNode = FocusNode();
 
-    _animationController = AnimationController(
+    _filterAnimationController = AnimationController(
       vsync: this, // the SingleTickerProviderStateMixin
       duration: _duration,
     );
@@ -43,7 +56,7 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
   void didUpdateWidget(BusinessSearchPeopleScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    _animationController.duration = _duration;
+    _filterAnimationController.duration = _duration;
   }
 
   @override
@@ -52,26 +65,26 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
     searchFocusNode.dispose();
 
     specialtyController.dispose();
-    _animationController.dispose();
+    _filterAnimationController.dispose();
 
     super.dispose();
   }
 
   void _modifyFilterVisibility() async {
     try {
-      if (_showFilter) {
-        await _animationController
-            .forward()
-            .orCancel;
-      } else {
-        await _animationController
-            .reverse()
-            .orCancel;
-      }
-
       setState(() {
         _showFilter = !_showFilter;
       });
+
+      if (_showFilter) {
+        await _filterAnimationController
+            .forward()
+            .orCancel;
+      } else {
+        await _filterAnimationController
+            .reverse()
+            .orCancel;
+      }
     } on TickerCanceled {
       // the animation got canceled, probably because we were disposed
     }
@@ -89,7 +102,7 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
               "Especialidad",
               TextFormField(
                 focusNode: specialtyFocusNode,
-                autofocus: true,
+                //TODO autofocus: true,
                 controller: specialtyController,
                 validator: (value) {
                   if (value.isEmpty) {
@@ -186,10 +199,11 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
     );
   }
 
-  Widget _personWidget(BuildContext context, int person) {
+  Widget _personWidget(BuildContext context, PossibleEmployee person) {
     return ListTile(
       leading: Icon(Icons.person),
-      title: Text('Persona'),
+      title: Text("${person.name} (${person.sex == 0? "hombre":"mujer"}), ${person.age} años"),
+      subtitle: Text("Experiencia: ${person.expirience} años"),
       onTap: () => {
 
       },
@@ -198,6 +212,15 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
 
   @override
   Widget build(BuildContext context) {
+    final List<PossibleEmployee> filtered = List.from(people);
+    filtered.removeWhere((possibleEmployee) {
+      return !(_expirienceMinSelected <= possibleEmployee.expirience
+          && possibleEmployee.expirience <= _expirienceMaxSelected
+          && _ageMinSelected <= possibleEmployee.age
+          && possibleEmployee.age <= _ageMaxSelected
+          && (_selectedSex == 0 || _selectedSex == (possibleEmployee.sex+1)));
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text("W"),
@@ -230,11 +253,10 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
               SizeTransition(
                 child: child,
                 sizeFactor: CurvedAnimation(
-                  parent: _animationController,
+                  parent: _filterAnimationController,
                   curve: Curves.fastOutSlowIn
                 ),
-              )
-            ,
+              ),
             child: Container(
               key: ValueKey<bool>(_showFilter),
               padding: EdgeInsets.only(left: 16, right: 16),
@@ -256,11 +278,14 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
               )),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, position) => _personWidget(context, position)
-            )
+          Visibility(
+            visible: !_showFilter,
+            child: Expanded(
+              child: ListView.builder(
+                itemCount: filtered.length,
+                itemBuilder: (context, position) => _personWidget(context, filtered[position]),
+              )
+            ),
           ),
         ],
       )

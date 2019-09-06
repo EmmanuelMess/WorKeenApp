@@ -25,6 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_range_slider: ^1.3.1
 
+  faker: ^1.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
