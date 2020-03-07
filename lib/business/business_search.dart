@@ -21,7 +21,7 @@ class _BusinessSearchPeopleState extends State<BusinessSearchPeopleScreen> with 
   final List<String> _sexes = ['Indiferente', 'Hombre', 'Mujer'];
   final _formKey = GlobalKey<FormState>();
 
-  FocusNode specialtyFocusNode; 
+  FocusNode specialtyFocusNode;
   FocusNode searchFocusNode;
 
   final specialtyController = TextEditingController();

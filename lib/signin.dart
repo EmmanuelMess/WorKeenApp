@@ -98,6 +98,7 @@ class _SignInState extends State<SignInScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("W"),
+        textTheme: ThemeData.light().textTheme,
       ),
       body: Container(
         padding: EdgeInsets.only(left: 16, right: 16),

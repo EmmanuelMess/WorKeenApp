@@ -13,7 +13,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Workeen',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: MaterialColor(
+        Color.fromARGB(255, 255, 255, 255).value,
+        <int, Color>{
+        50: Colors.white,
+        100: Colors.white,
+        200: Colors.white,
+        300: Colors.white,
+        400: Colors.white,
+        500: Colors.white,
+        600: Colors.white,
+        700: Colors.white,
+        800: Colors.white,
+        900: Colors.white,
+        },
+    );
       ),
       routes: {
         BusinessSearchPeopleScreen.routeName: (context) => BusinessSearchPeopleScreen(),
